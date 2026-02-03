@@ -53,6 +53,5 @@ public sealed class ListInterpolatedParser<T>(IInterpolatedParser<T> parser) : I
         result = resultArray.ToList();
         return ParseResult.CreateFailedResults(parseResults);
 #endif
-        return default;
     }
 }

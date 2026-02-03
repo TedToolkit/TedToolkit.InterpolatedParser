@@ -8,6 +8,7 @@
 using TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 namespace TedToolkit.InterpolatedParser.InterpolatedParserCreators;
+#pragma warning disable CA1062
 
 /// <summary>
 /// The enum interpolated parser creator.

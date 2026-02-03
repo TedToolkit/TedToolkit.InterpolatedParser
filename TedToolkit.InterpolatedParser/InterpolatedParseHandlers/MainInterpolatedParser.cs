@@ -21,7 +21,9 @@ internal ref struct MainInterpolatedParser
 
     private readonly bool _noExceptions;
 
+#pragma warning disable CA1859
     private IInterpolatedParserHolder? _holder;
+#pragma warning restore CA1859
 
     private int _index;
 
