@@ -22,17 +22,22 @@ public static class InterpolatedParserSettings
     private static readonly List<IInterpolatedParserCreator>
         _interpolatedParserCreators = [];
 
-    [ThreadStatic]
-    private static Dictionary<Type, IInterpolatedParserHolder>? _holders;
+    [ThreadStatic] private static Dictionary<Type, IInterpolatedParserHolder>? _holders;
 
     static InterpolatedParserSettings()
     {
         AddParser(new StringInterpolatedParser());
+#if !NET7_0_OR_GREATER
         AddParser(new IntInterpolatedParser());
+#endif
 
         AddParserCreator(new ListInterpolatedParserCreator());
         AddParserCreator(new ArrayInterpolatedParserCreator());
         AddParserCreator(new EnumInterpolatedParserCreator());
+#if NET7_0_OR_GREATER
+        AddParserCreator(new NumberBaseInterpolatedParserCreator());
+        AddParserCreator(new ParsableInterpolatedParserCreator());
+#endif
     }
 
     /// <summary>
