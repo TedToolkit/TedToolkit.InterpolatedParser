@@ -1,0 +1,5 @@
+{
+  "CantFindParser": "Can't find the parser for the type [{{Type}}]!",
+  "FailedIndex": "Failed to index the key [{{Key}}] from the string [{{String}}]!",
+  "FailedToParse": "Failed to parse the string [{{String}}] to the type [{{Type}}]"
+}
