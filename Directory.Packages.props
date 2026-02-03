@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
+    <PackageVersion Include="Sourcy.DotNet" Version="1.1.1" />
+    <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    <PackageVersion Include="TedToolkit.Localizations" Version="2026.2.1.2" />
+    <PackageVersion Include="TUnit" Version="1.12.111" />
+  </ItemGroup>
+</Project>

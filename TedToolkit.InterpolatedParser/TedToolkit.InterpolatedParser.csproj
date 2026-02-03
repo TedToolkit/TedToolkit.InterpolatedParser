@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\externals\TedToolkit\props\CodeAnalysis.props"/>
+  <Import Project="..\externals\TedToolkit\props\NugetPackage.props"/>
+  <Import Project="..\externals\TedToolkit\props\AlmostAllFrameworks.props"/>
+  
+  <PropertyGroup>
+    <Title>Interpolated Parser</Title>
+    <Description>Interpolated Parser</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' Or '$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Localizations\Localization*.json"/>
+    <PackageReference Include="PolySharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="TedToolkit.Localizations" />
+  </ItemGroup>
+
+</Project>
