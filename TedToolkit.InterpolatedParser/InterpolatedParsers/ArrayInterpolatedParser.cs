@@ -17,13 +17,7 @@ namespace TedToolkit.InterpolatedParser;
 internal sealed class ArrayInterpolatedParser<T>(IInterpolatedParser<T> parser) : IInterpolatedParser<T[]>
 {
     /// <inheritdoc/>
-    public ParseResult Parse(
-#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ReadOnlySpan<char> input,
-#else
-        string input,
-#endif
-        string format, ref T[] result, bool noExceptions)
+    public ParseResult Parse(StringPart input, string format, ref T[] result, bool noExceptions)
     {
         var formatItems = InterpolatedParserHelper.GetFormatItems(format);
         var separator = InterpolatedParserHelper.GetString(formatItems, 0, ",");

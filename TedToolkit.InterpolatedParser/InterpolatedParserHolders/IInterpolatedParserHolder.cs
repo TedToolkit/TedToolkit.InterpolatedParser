@@ -19,11 +19,5 @@ internal interface IInterpolatedParserHolder
     /// <param name="format">format.</param>
     /// <param name="noExceptions">is trying.</param>
     /// <returns>result.</returns>
-    ParseResult Parse(
-        #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ReadOnlySpan<char> input,
-        #else
-        string input,
-        #endif
-        string format, bool noExceptions);
+    ParseResult Parse(StringPart input, string format, bool noExceptions);
 }

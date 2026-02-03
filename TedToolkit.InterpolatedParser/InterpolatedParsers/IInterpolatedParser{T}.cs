@@ -21,11 +21,5 @@ public interface IInterpolatedParser<T> : IInterpolatedParser
     /// <param name="result">result.</param>
     /// <param name="noExceptions">true for no exceptions.</param>
     /// <returns>succeed.</returns>
-    ParseResult Parse(
-#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ReadOnlySpan<char> input,
-#else
-        string input,
-#endif
-        string format, ref T result, bool noExceptions);
+    ParseResult Parse(StringPart input, string format, ref T result, bool noExceptions);
 }

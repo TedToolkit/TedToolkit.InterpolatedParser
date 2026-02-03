@@ -13,13 +13,7 @@ namespace TedToolkit.InterpolatedParser;
 internal sealed class StringInterpolatedParser : IInterpolatedParser<string>
 {
     /// <inheritdoc/>
-    public ParseResult Parse(
-#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ReadOnlySpan<char> input,
-#else
-        string input,
-#endif
-        string format, ref string result, bool noExceptions)
+    public ParseResult Parse(StringPart input, string format, ref string result, bool noExceptions)
     {
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         result = new(input);

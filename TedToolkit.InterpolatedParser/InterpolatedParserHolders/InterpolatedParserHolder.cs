@@ -33,14 +33,6 @@ internal sealed unsafe class InterpolatedParserHolder<T>(IInterpolatedParser<T> 
     }
 
     /// <inheritdoc/>
-    public ParseResult Parse(
-#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ReadOnlySpan<char> input,
-#else
-        string input,
-#endif
-        string format, bool noExceptions)
-    {
-        return parser.Parse(input, format, ref Unsafe.AsRef<T>(_pointer), noExceptions);
-    }
+    public ParseResult Parse(StringPart input, string format, bool noExceptions)
+        => parser.Parse(input, format, ref Unsafe.AsRef<T>(_pointer), noExceptions);
 }
