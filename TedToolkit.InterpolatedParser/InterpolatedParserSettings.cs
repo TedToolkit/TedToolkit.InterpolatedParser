@@ -29,6 +29,16 @@ public static class InterpolatedParserSettings
         AddParser(new StringInterpolatedParser());
 #if !NET7_0_OR_GREATER
         AddParser(new IntInterpolatedParser());
+        AddParser(new ByteInterpolatedParser());
+        AddParser(new DecimalInterpolatedParser());
+        AddParser(new DoubleInterpolatedParser());
+        AddParser(new FloatInterpolatedParser());
+        AddParser(new LongInterpolatedParser());
+        AddParser(new SbyteInterpolatedParser());
+        AddParser(new ShortInterpolatedParser());
+        AddParser(new UintInterpolatedParser());
+        AddParser(new UlongInterpolatedParser());
+        AddParser(new UshortInterpolatedParser());
 #endif
 
         AddParserCreator(new ListInterpolatedParserCreator());
