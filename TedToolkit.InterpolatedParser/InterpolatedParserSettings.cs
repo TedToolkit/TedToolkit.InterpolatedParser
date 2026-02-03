@@ -8,6 +8,7 @@
 using System.Runtime.InteropServices;
 
 using TedToolkit.InterpolatedParser.InterpolatedParserCreators;
+using TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 namespace TedToolkit.InterpolatedParser;
 
@@ -21,8 +22,7 @@ public static class InterpolatedParserSettings
     private static readonly List<IInterpolatedParserCreator>
         _interpolatedParserCreators = [];
 
-    [ThreadStatic]
-    private static Dictionary<Type, IInterpolatedParserHolder>? _holders;
+    [ThreadStatic] private static Dictionary<Type, IInterpolatedParserHolder>? _holders;
 
     static InterpolatedParserSettings()
     {
@@ -30,6 +30,7 @@ public static class InterpolatedParserSettings
 
         AddParserCreator(new ListInterpolatedParserCreator());
         AddParserCreator(new ArrayInterpolatedParserCreator());
+        AddParserCreator(new EnumInterpolatedParserCreator());
     }
 
     /// <summary>
@@ -41,11 +42,29 @@ public static class InterpolatedParserSettings
         => _parsers[typeof(T)] = parser;
 
     /// <summary>
+    /// Clear all parsers.
+    /// </summary>
+    public static void ClearParsers()
+        => _parsers.Clear();
+
+    /// <summary>
     /// Add the predicate creator.
     /// </summary>
     /// <param name="creator">creator.</param>
     public static void AddParserCreator(IInterpolatedParserCreator creator)
         => _interpolatedParserCreators.Add(creator);
+
+    /// <summary>
+    /// Clear all holders.
+    /// </summary>
+    public static void ClearHolders()
+        => _holders?.Clear();
+
+    /// <summary>
+    /// Clear all creators.
+    /// </summary>
+    public static void ClearCreators()
+        => _interpolatedParserCreators.Clear();
 
     /// <summary>
     /// Get the parser from the type.
@@ -62,6 +81,7 @@ public static class InterpolatedParserSettings
     /// <param name="type">type.</param>
     /// <returns>parser.</returns>
     /// <exception cref="KeyNotFoundException">can't find the parser.</exception>
+    /// <exception cref="ArgumentNullException">type is null.</exception>
     public static IInterpolatedParser GetParser(Type type)
     {
 #if NET6_0_OR_GREATER

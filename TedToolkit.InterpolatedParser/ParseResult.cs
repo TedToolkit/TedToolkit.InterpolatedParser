@@ -66,4 +66,49 @@ public readonly record struct ParseResult
     /// <returns>result.</returns>
     public static ParseResult Failed(string message)
         => new(ParseResultType.FAILED_TO_PARSE, message, []);
+
+    /// <summary>
+    /// Failed to parse.
+    /// </summary>
+    /// <typeparam name="T">type.</typeparam>
+    /// <param name="input">input string.</param>
+    /// <returns>result.</returns>
+    public static ParseResult FailedToParse<T>(
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        scoped in StringPart input)
+#else
+        StringPart input)
+#endif
+    {
+        return FailedToParse(typeof(T), input);
+    }
+
+    /// <summary>
+    /// Failed to parse.
+    /// </summary>
+    /// <param name="type">the target type.</param>
+    /// <param name="input">input string.</param>
+    /// <returns>result.</returns>
+    public static ParseResult FailedToParse(Type type,
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        scoped in StringPart input)
+#else
+        StringPart input)
+#endif
+    {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(type);
+#else
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
+#endif
+
+        return Failed(Localization.FailedToParse(
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            new(input),
+#else
+            input,
+#endif
+            type.FullName ?? type.Name));
+    }
 }

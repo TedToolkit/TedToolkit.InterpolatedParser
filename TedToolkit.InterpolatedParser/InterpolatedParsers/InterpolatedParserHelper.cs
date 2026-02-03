@@ -1,9 +1,9 @@
-namespace TedToolkit.InterpolatedParser;
+namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
 /// The helper for the holders.
 /// </summary>
-internal static class InterpolatedParserHelper
+public static class InterpolatedParserHelper
 {
     /// <summary>
     /// Get the format items.

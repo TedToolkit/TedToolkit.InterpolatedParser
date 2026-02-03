@@ -1,10 +1,12 @@
-﻿namespace TedToolkit.InterpolatedParser.InterpolatedParserCreators;
+﻿using TedToolkit.InterpolatedParser.InterpolatedParsers;
+
+namespace TedToolkit.InterpolatedParser.InterpolatedParserCreators;
 #pragma warning disable CA1062
 
 /// <summary>
 /// The list interpolated parser creator.
 /// </summary>
-internal sealed class ArrayInterpolatedParserCreator : IInterpolatedParserCreator
+public sealed class ArrayInterpolatedParserCreator : IInterpolatedParserCreator
 {
     /// <inheritdoc />
     public bool CanCreate(Type type)

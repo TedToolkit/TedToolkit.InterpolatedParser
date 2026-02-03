@@ -5,12 +5,12 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace TedToolkit.InterpolatedParser;
+namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
 /// The string parser.
 /// </summary>
-internal sealed class StringInterpolatedParser : IInterpolatedParser<string>
+public sealed class StringInterpolatedParser : IInterpolatedParser<string>
 {
     /// <inheritdoc/>
     public ParseResult Parse(StringPart input, string format, ref string result, bool noExceptions)

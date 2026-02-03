@@ -1,11 +1,11 @@
 // -----------------------------------------------------------------------
-// <copyright file="IInterpolatedParser.cs" company="TedToolkit">
+// <copyright file="IInterpolatedParserCreator.cs" company="TedToolkit">
 // Copyright (c) TedToolkit. All rights reserved.
 // Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace TedToolkit.InterpolatedParser.InterpolatedParserCreators;
+namespace TedToolkit.InterpolatedParser;
 
 /// <summary>
 /// The Interpolated parser creator.

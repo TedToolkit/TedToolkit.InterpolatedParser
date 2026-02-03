@@ -7,14 +7,14 @@
 
 using System.Text.RegularExpressions;
 
-namespace TedToolkit.InterpolatedParser;
+namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
 /// The string parser.
 /// </summary>
 /// <typeparam name="T">type.</typeparam>
 /// <param name="parser">the item parser.</param>
-internal sealed class ListInterpolatedParser<T>(IInterpolatedParser<T> parser) : IInterpolatedParser<List<T>>
+public sealed class ListInterpolatedParser<T>(IInterpolatedParser<T> parser) : IInterpolatedParser<List<T>>
 {
     /// <inheritdoc/>
     public ParseResult Parse(StringPart input, string format, ref List<T> result, bool noExceptions)
