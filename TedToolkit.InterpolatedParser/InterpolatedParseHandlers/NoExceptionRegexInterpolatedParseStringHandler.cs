@@ -7,7 +7,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 
 namespace TedToolkit.InterpolatedParser;
 
@@ -49,7 +48,7 @@ public ref struct NoExceptionRegexInterpolatedParseStringHandler
             throw new ArgumentNullException(nameof(s));
 #endif
 
-        var regexResult = new Regex(s).Match(_parser.Input, _parser.Start);
+        var regexResult = RegexCache.Get(s).Match(_parser.Input, _parser.Start);
         var succeed = regexResult.Success;
         _parser.AppendLiteral(succeed ? regexResult.Index : -1, regexResult.Length, s);
     }
