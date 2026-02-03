@@ -1,5 +1,5 @@
 {
   "CantFindParser": "无法找到给类型[{{Type}}]的解析器！",
   "FailedIndex": "无法从字符串[{{String}}]中找到[{{Key}}]的位置信息！",
-  "FailedToParse": "无法解析字符串[{{String}}]到类型[{{Type}}]"
+  "FailedToParse": "Failed to parse the string [{{String}}] to the type [{{Type}}]!"
 }
