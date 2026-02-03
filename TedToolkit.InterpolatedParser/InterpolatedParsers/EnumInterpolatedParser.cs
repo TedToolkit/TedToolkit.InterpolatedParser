@@ -35,7 +35,7 @@ public sealed class EnumInterpolatedParser<T> : IInterpolatedParser<T>
         }
 
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-            result = Enum.Parse<T>(
+        result = Enum.Parse<T>(
 #if NETSTANDARD2_1
             new(input));
 #else
