@@ -52,6 +52,5 @@ public sealed class ArrayInterpolatedParser<T>(IInterpolatedParser<T> parser) : 
 
         return ParseResult.CreateFailedResults(parseResults);
 #endif
-        return default;
     }
 }

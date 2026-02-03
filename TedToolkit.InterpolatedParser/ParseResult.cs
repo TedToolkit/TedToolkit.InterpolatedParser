@@ -89,6 +89,7 @@ public readonly record struct ParseResult
     /// <param name="type">the target type.</param>
     /// <param name="input">input string.</param>
     /// <returns>result.</returns>
+    /// <exception cref="ArgumentNullException">the type is null.</exception>
     public static ParseResult FailedToParse(Type type,
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         scoped in StringPart input)
