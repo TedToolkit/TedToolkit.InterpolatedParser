@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="InterpolatedParseStringHandler.cs" company="TedToolkit">
+// <copyright file="NoExceptionInterpolatedParseStringHandler.cs" company="TedToolkit">
 // Copyright (c) TedToolkit. All rights reserved.
 // Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
 // </copyright>
@@ -13,22 +13,22 @@ namespace TedToolkit.InterpolatedParser;
 /// The default handler for the interpolated parser.
 /// </summary>
 [InterpolatedStringHandler]
-public ref struct InterpolatedParseStringHandler
+public ref struct NoExceptionInterpolatedParseStringHandler
 {
     private MainInterpolatedParser _parser;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="InterpolatedParseStringHandler"/> struct.
+    /// Initializes a new instance of the <see cref="NoExceptionInterpolatedParseStringHandler"/> struct.
     /// Create a handler.
     /// </summary>
     /// <param name="literalLength">the literal length.</param>
     /// <param name="formattedCount">the formated count.</param>
     /// <param name="input">the input string.</param>
 #pragma warning disable RCS1163
-    public InterpolatedParseStringHandler(int literalLength, int formattedCount, string input)
+    public NoExceptionInterpolatedParseStringHandler(int literalLength, int formattedCount, string input)
 #pragma warning restore RCS1163
     {
-        _parser = new(formattedCount, input, false);
+        _parser = new(formattedCount, input, true);
     }
 
     /// <summary>

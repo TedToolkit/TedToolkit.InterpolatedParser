@@ -5,6 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace TedToolkit.InterpolatedParser;
@@ -21,10 +22,54 @@ public static class InterpolatedParserExtensions
     /// <param name="input">input string.</param>
     /// <param name="template">template.</param>
     /// <returns>results.</returns>
-    public static IReadOnlyList<ParseResult> Parse(
+    public static ParseResult Parse(
         this string input,
         [InterpolatedStringHandlerArgument(nameof(input))]
         InterpolatedParseStringHandler template)
+    {
+        return template.Solve();
+    }
+
+    /// <summary>
+    ///     The basic tye parse.
+    /// </summary>
+    /// <param name="input">input string.</param>
+    /// <param name="template">template.</param>
+    /// <returns>results.</returns>
+    public static ParseResult TryParse(
+        this string input,
+        [InterpolatedStringHandlerArgument(nameof(input))]
+        NoExceptionInterpolatedParseStringHandler template)
+    {
+        return template.Solve();
+    }
+
+    /// <summary>
+    ///     The basic Parse by regex.
+    /// </summary>
+    /// <param name="input">input string.</param>
+    /// <param name="template">template.</param>
+    /// <returns>results.</returns>
+    public static ParseResult ParseRegex(
+        this string input,
+        [StringSyntax(StringSyntaxAttribute.Regex)]
+        [InterpolatedStringHandlerArgument(nameof(input))]
+        RegexInterpolatedParseStringHandler template)
+    {
+        return template.Solve();
+    }
+
+    /// <summary>
+    ///     The basic try Parse by regex.
+    /// </summary>
+    /// <param name="input">input string.</param>
+    /// <param name="template">template.</param>
+    /// <returns>results.</returns>
+    public static ParseResult TryParseRegex(
+        this string input,
+        [StringSyntax(StringSyntaxAttribute.Regex)]
+        [InterpolatedStringHandlerArgument(nameof(input))]
+        NoExceptionRegexInterpolatedParseStringHandler template)
     {
         return template.Solve();
     }

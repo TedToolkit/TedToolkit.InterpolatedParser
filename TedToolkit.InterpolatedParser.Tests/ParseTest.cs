@@ -68,4 +68,14 @@ public class ParseTest
         "I am 18 years old!".Parse($"I am {value} years old!");
         await Assert.That(value).IsEqualTo(18);
     }
+
+    [Test]
+    public async Task Should_get_string_by_regex()
+    {
+        var a = "";
+        var b = "";
+        "I am sooooo cool!!Thanks!".ParseRegex($"I am so+ {a}!+{b}");
+        await Assert.That(a).IsEqualTo("cool");
+        await Assert.That(b).IsEqualTo("Thanks!");
+    }
 }

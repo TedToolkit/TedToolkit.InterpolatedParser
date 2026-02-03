@@ -1,11 +1,13 @@
 // -----------------------------------------------------------------------
-// <copyright file="InterpolatedParseStringHandler.cs" company="TedToolkit">
+// <copyright file="RegexInterpolatedParseStringHandler.cs" company="TedToolkit">
 // Copyright (c) TedToolkit. All rights reserved.
 // Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace TedToolkit.InterpolatedParser;
 
@@ -13,19 +15,19 @@ namespace TedToolkit.InterpolatedParser;
 /// The default handler for the interpolated parser.
 /// </summary>
 [InterpolatedStringHandler]
-public ref struct InterpolatedParseStringHandler
+public ref struct RegexInterpolatedParseStringHandler
 {
     private MainInterpolatedParser _parser;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="InterpolatedParseStringHandler"/> struct.
+    /// Initializes a new instance of the <see cref="RegexInterpolatedParseStringHandler"/> struct.
     /// Create a handler.
     /// </summary>
     /// <param name="literalLength">the literal length.</param>
     /// <param name="formattedCount">the formated count.</param>
     /// <param name="input">the input string.</param>
 #pragma warning disable RCS1163
-    public InterpolatedParseStringHandler(int literalLength, int formattedCount, string input)
+    public RegexInterpolatedParseStringHandler(int literalLength, int formattedCount, string input)
 #pragma warning restore RCS1163
     {
         _parser = new(formattedCount, input, false);
@@ -36,7 +38,9 @@ public ref struct InterpolatedParseStringHandler
     /// </summary>
     /// <param name="s">string.</param>
     /// <exception cref="ArgumentNullException">s is null.</exception>
-    public void AppendLiteral(string s)
+    public void AppendLiteral(
+        [StringSyntax(StringSyntaxAttribute.Regex)]
+        string s)
     {
 #if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(s);
@@ -45,8 +49,9 @@ public ref struct InterpolatedParseStringHandler
             throw new ArgumentNullException(nameof(s));
 #endif
 
-        var start = _parser.Input.IndexOf(s, _parser.Start, StringComparison.CurrentCulture);
-        _parser.AppendLiteral(start, s.Length, s);
+        var regexResult = new Regex(s).Match(_parser.Input, _parser.Start);
+        var succeed = regexResult.Success;
+        _parser.AppendLiteral(succeed ? regexResult.Index : -1, regexResult.Length, s);
     }
 
     /// <summary>

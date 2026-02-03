@@ -76,7 +76,9 @@ internal ref struct MainInterpolatedParser
         }
         finally
         {
-            Start = start + length;
+            if (start >= 0)
+                Start = start + length;
+
             _holder = null;
         }
     }
@@ -99,7 +101,7 @@ internal ref struct MainInterpolatedParser
     /// Solve the result.
     /// </summary>
     /// <returns>result.</returns>
-    public ParseResult[] Solve()
+    public ParseResult Solve()
     {
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         var text = Input.AsSpan(Start);
@@ -109,6 +111,6 @@ internal ref struct MainInterpolatedParser
         if (_holder is not null)
             _results[_index++] = _holder.Parse(text, _format, _noExceptions);
 
-        return _results;
+        return ParseResult.CreateFailedResults(_results);
     }
 }
