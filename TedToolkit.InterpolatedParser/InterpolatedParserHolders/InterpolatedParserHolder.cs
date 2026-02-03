@@ -13,7 +13,8 @@ namespace TedToolkit.InterpolatedParser;
 /// The parser holder for values.
 /// </summary>
 /// <typeparam name="T">the type.</typeparam>
-internal abstract unsafe class InterpolatedParserHolder<T> :
+/// <param name="parser">parser.</param>
+internal sealed unsafe class InterpolatedParserHolder<T>(IInterpolatedParser<T> parser) :
     IInterpolatedParserHolder
 {
     private void* _pointer;
@@ -31,18 +32,15 @@ internal abstract unsafe class InterpolatedParserHolder<T> :
 #endif
     }
 
-    /// <summary>
-    /// Gets the data ref.
-    /// </summary>
-    protected ref T Ref
-        => ref Unsafe.AsRef<T>(_pointer);
-
     /// <inheritdoc/>
-    public abstract ParseResult Parse(
+    public ParseResult Parse(
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         ReadOnlySpan<char> input,
 #else
         string input,
 #endif
-        string format, bool noExceptions);
+        string format, bool noExceptions)
+    {
+        return parser.Parse(input, format, ref Unsafe.AsRef<T>(_pointer), noExceptions);
+    }
 }

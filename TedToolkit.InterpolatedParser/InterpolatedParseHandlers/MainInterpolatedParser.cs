@@ -89,35 +89,7 @@ internal ref struct MainInterpolatedParser
     /// <typeparam name="T">type.</typeparam>
     public void AppendFormatted<T>(in T t, string format)
     {
-        var holder = InterpolatedParserSettings.GetItemHolder<T>();
-        holder.SetValue(t);
-        _holder = holder;
-        _format = format;
-    }
-
-    /// <summary>
-    /// Append something list formatted.
-    /// </summary>
-    /// <param name="t">thing.</param>
-    /// <param name="format">format.</param>
-    /// <typeparam name="T">type.</typeparam>
-    public void AppendFormatted<T>(in List<T> t, string format)
-    {
-        var holder = InterpolatedParserSettings.GetListHolder<T>();
-        holder.SetValue(t);
-        _holder = holder;
-        _format = format;
-    }
-
-    /// <summary>
-    /// Append something array formatted.
-    /// </summary>
-    /// <param name="t">thing.</param>
-    /// <param name="format">format.</param>
-    /// <typeparam name="T">type.</typeparam>
-    public void AppendFormatted<T>(in T[] t, string format)
-    {
-        var holder = InterpolatedParserSettings.GetArrayHolder<T>();
+        var holder = InterpolatedParserSettings.GetHolder<T>();
         holder.SetValue(t);
         _holder = holder;
         _format = format;

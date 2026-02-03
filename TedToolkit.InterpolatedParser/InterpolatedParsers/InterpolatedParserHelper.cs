@@ -3,8 +3,16 @@ namespace TedToolkit.InterpolatedParser;
 /// <summary>
 /// The helper for the holders.
 /// </summary>
-internal static class InterpolatedParserHolderHelper
+internal static class InterpolatedParserHelper
 {
+    /// <summary>
+    /// Get the format items.
+    /// </summary>
+    /// <param name="format">format.</param>
+    /// <returns>result.</returns>
+    public static string[] GetFormatItems(string format)
+        => format.Split('|');
+
     /// <summary>
     /// Get the string.
     /// </summary>

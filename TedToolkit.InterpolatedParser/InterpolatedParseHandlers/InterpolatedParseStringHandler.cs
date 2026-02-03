@@ -59,26 +59,6 @@ public ref struct InterpolatedParseStringHandler
         => _parser.AppendFormatted(in t, format);
 
     /// <summary>
-    /// Append the formatted.
-    /// </summary>
-    /// <param name="t">result.</param>
-    /// <param name="format">format.</param>
-    /// <typeparam name="T">type.</typeparam>
-    public void AppendFormatted<T>(in T[] t, string format = "")
-        => _parser.AppendFormatted(in t, format);
-
-    /// <summary>
-    /// Append the formatted.
-    /// </summary>
-    /// <param name="t">result.</param>
-    /// <param name="format">format.</param>
-    /// <typeparam name="T">type.</typeparam>
-#pragma warning disable CA1002
-    public void AppendFormatted<T>(in List<T> t, string format = "")
-#pragma warning restore CA1002
-        => _parser.AppendFormatted(in t, format);
-
-    /// <summary>
     /// Solve.
     /// </summary>
     /// <returns>result.</returns>

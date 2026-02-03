@@ -7,6 +7,8 @@
 
 using System.Runtime.InteropServices;
 
+using TedToolkit.InterpolatedParser.InterpolatedParserCreators;
+
 namespace TedToolkit.InterpolatedParser;
 
 /// <summary>
@@ -14,20 +16,20 @@ namespace TedToolkit.InterpolatedParser;
 /// </summary>
 public static class InterpolatedParserSettings
 {
-    private static readonly Dictionary<Type, object> _parsers = [];
+    private static readonly Dictionary<Type, IInterpolatedParser> _parsers = [];
+
+    private static readonly List<IInterpolatedParserCreator>
+        _interpolatedParserCreators = [];
 
     [ThreadStatic]
-    private static Dictionary<Type, IInterpolatedParserHolder>? _itemHolders;
-
-    [ThreadStatic]
-    private static Dictionary<Type, IInterpolatedParserHolder>? _listHolders;
-
-    [ThreadStatic]
-    private static Dictionary<Type, IInterpolatedParserHolder>? _arrayHolders;
+    private static Dictionary<Type, IInterpolatedParserHolder>? _holders;
 
     static InterpolatedParserSettings()
     {
         AddParser(new StringInterpolatedParser());
+
+        AddParserCreator(new ListInterpolatedParserCreator());
+        AddParserCreator(new ArrayInterpolatedParserCreator());
     }
 
     /// <summary>
@@ -39,61 +41,84 @@ public static class InterpolatedParserSettings
         => _parsers[typeof(T)] = parser;
 
     /// <summary>
-    /// Get the item holders.
+    /// Add the predicate creator.
+    /// </summary>
+    /// <param name="creator">creator.</param>
+    public static void AddParserCreator(IInterpolatedParserCreator creator)
+        => _interpolatedParserCreators.Add(creator);
+
+    /// <summary>
+    /// Get the parser from the type.
     /// </summary>
     /// <typeparam name="T">type.</typeparam>
-    /// <returns>result.</returns>
-    internal static InterpolatedParserItemHolder<T> GetItemHolder<T>()
+    /// <returns>parser.</returns>
+    /// <exception cref="KeyNotFoundException">can't find the parser.</exception>
+    public static IInterpolatedParser<T> GetParser<T>()
+        => (IInterpolatedParser<T>)GetParser(typeof(T));
+
+    /// <summary>
+    /// Get the parser from the type.
+    /// </summary>
+    /// <param name="type">type.</param>
+    /// <returns>parser.</returns>
+    /// <exception cref="KeyNotFoundException">can't find the parser.</exception>
+    public static IInterpolatedParser GetParser(Type type)
     {
-        return (InterpolatedParserItemHolder<T>)GetHolder<T>(ref _itemHolders,
-            static i => new InterpolatedParserItemHolder<T>(i));
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(type);
+#else
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
+#endif
+#if NET6_0_OR_GREATER
+        ref var parser = ref CollectionsMarshal.GetValueRefOrAddDefault(_parsers, type, out var exists);
+        if (exists && parser is not null)
+#else
+        if (_parsers.TryGetValue(type, out var parser))
+#endif
+            return parser;
+
+        foreach (var creator in _interpolatedParserCreators)
+        {
+            if (!creator.CanCreate(type))
+                continue;
+
+            var addedParser = creator.Create(type);
+
+#if NET6_0_OR_GREATER
+            parser = addedParser;
+#else
+            _parsers[type] = addedParser;
+#endif
+            return addedParser;
+        }
+
+        throw new KeyNotFoundException(Localization.CantFindParser(type.FullName));
     }
 
     /// <summary>
-    /// Get the list holders.
+    /// Get the older.
     /// </summary>
     /// <typeparam name="T">type.</typeparam>
     /// <returns>result.</returns>
-    internal static InterpolatedParserListHolder<T> GetListHolder<T>()
+    internal static InterpolatedParserHolder<T> GetHolder<T>()
     {
-        return (InterpolatedParserListHolder<T>)GetHolder<T>(ref _listHolders,
-            static i => new InterpolatedParserListHolder<T>(i));
-    }
-
-    /// <summary>
-    /// Get the array holders.
-    /// </summary>
-    /// <typeparam name="T">type.</typeparam>
-    /// <returns>result.</returns>
-    internal static InterpolatedParserArrayHolder<T> GetArrayHolder<T>()
-    {
-        return (InterpolatedParserArrayHolder<T>)GetHolder<T>(ref _arrayHolders,
-            static i => new InterpolatedParserArrayHolder<T>(i));
-    }
-
-    private static IInterpolatedParserHolder GetHolder<T>(ref Dictionary<Type, IInterpolatedParserHolder>? holders,
-        Func<IInterpolatedParser<T>, IInterpolatedParserHolder> creator)
-    {
-        holders ??= [];
+        _holders ??= [];
 
         var type = typeof(T);
 #if NET6_0_OR_GREATER
-        ref var holder = ref CollectionsMarshal.GetValueRefOrAddDefault(holders, type, out var exists);
+        ref var holder = ref CollectionsMarshal.GetValueRefOrAddDefault(_holders, type, out var exists);
         if (exists && holder is not null)
 #else
-        if (holders.TryGetValue(type, out var holder))
+        if (_holders.TryGetValue(type, out var holder))
 #endif
-            return holder;
+            return (InterpolatedParserHolder<T>)holder;
 
-        if (!_parsers.TryGetValue(type, out var parser) || parser is not IInterpolatedParser<T> typedParser)
-            throw new KeyNotFoundException(Localization.CantFindParser(type.FullName));
-
-        var addedHolder = creator(typedParser);
-
+        var addedHolder = new InterpolatedParserHolder<T>(GetParser<T>());
 #if NET6_0_OR_GREATER
         holder = addedHolder;
 #else
-        holders[type] = addedHolder;
+        _holders[type] = addedHolder;
 #endif
 
         return addedHolder;
