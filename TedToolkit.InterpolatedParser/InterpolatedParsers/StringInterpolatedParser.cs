@@ -21,6 +21,6 @@ public sealed class StringInterpolatedParser : IInterpolatedParser<string>
 #else
         result = input;
 #endif
-        return default;
+        return ParseResult.Succeed;
     }
 }

@@ -22,11 +22,13 @@ public static class InterpolatedParserSettings
     private static readonly List<IInterpolatedParserCreator>
         _interpolatedParserCreators = [];
 
-    [ThreadStatic] private static Dictionary<Type, IInterpolatedParserHolder>? _holders;
+    [ThreadStatic]
+    private static Dictionary<Type, IInterpolatedParserHolder>? _holders;
 
     static InterpolatedParserSettings()
     {
         AddParser(new StringInterpolatedParser());
+        AddParser(new IntInterpolatedParser());
 
         AddParserCreator(new ListInterpolatedParserCreator());
         AddParserCreator(new ArrayInterpolatedParserCreator());

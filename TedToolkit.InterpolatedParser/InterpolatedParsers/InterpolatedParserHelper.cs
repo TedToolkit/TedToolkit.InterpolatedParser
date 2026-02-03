@@ -1,4 +1,7 @@
+using System.Globalization;
+
 namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
+#pragma warning disable CA1062
 
 /// <summary>
 /// The helper for the holders.
@@ -30,5 +33,21 @@ public static class InterpolatedParserHelper
             return defaultValue;
 
         return text;
+    }
+
+    /// <summary>
+    /// Get the number style.
+    /// </summary>
+    /// <param name="format">format.</param>
+    /// <returns>style.</returns>
+    public static NumberStyles GetNumberStyle(string format)
+    {
+        if (string.IsNullOrEmpty(format))
+            return NumberStyles.Any;
+
+        if (Enum.TryParse<NumberStyles>(format, out var value))
+            return value;
+
+        return NumberStyles.Any;
     }
 }

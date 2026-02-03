@@ -60,4 +60,12 @@ public class ParseTest
         await Assert.That(names[1]).IsEqualTo(ExampleEnum.B);
         await Assert.That(names[2]).IsEqualTo(ExampleEnum.C);
     }
+
+    [Test]
+    public async Task Should_get_int()
+    {
+        var value = 0;
+        "I am 18 years old!".Parse($"I am {value} years old!");
+        await Assert.That(value).IsEqualTo(18);
+    }
 }
