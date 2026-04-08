@@ -7,12 +7,11 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 
 namespace TedToolkit.InterpolatedParser;
 
 /// <summary>
-/// The default handler for the interpolated parser.
+/// The interpolated string handler for regex-matching parsing that throws on failure.
 /// </summary>
 [InterpolatedStringHandler]
 public ref struct RegexInterpolatedParseStringHandler
@@ -24,7 +23,7 @@ public ref struct RegexInterpolatedParseStringHandler
     /// Create a handler.
     /// </summary>
     /// <param name="literalLength">the literal length.</param>
-    /// <param name="formattedCount">the formated count.</param>
+    /// <param name="formattedCount">the formatted count.</param>
     /// <param name="input">the input string.</param>
 #pragma warning disable RCS1163
     public RegexInterpolatedParseStringHandler(int literalLength, int formattedCount, string input)
@@ -46,10 +45,12 @@ public ref struct RegexInterpolatedParseStringHandler
         ArgumentNullException.ThrowIfNull(s);
 #else
         if (s is null)
+        {
             throw new ArgumentNullException(nameof(s));
+        }
 #endif
 
-        var regexResult = new Regex(s).Match(_parser.Input, _parser.Start);
+        var regexResult = RegexCache.Get(s).Match(_parser.Input, _parser.Start);
         var succeed = regexResult.Success;
         _parser.AppendLiteral(succeed ? regexResult.Index : -1, regexResult.Length, s);
     }
@@ -61,12 +62,16 @@ public ref struct RegexInterpolatedParseStringHandler
     /// <param name="format">format.</param>
     /// <typeparam name="T">type.</typeparam>
     public void AppendFormatted<T>(in T t, string format = "")
-        => _parser.AppendFormatted(in t, format);
+    {
+        _parser.AppendFormatted(in t, format);
+    }
 
     /// <summary>
     /// Solve.
     /// </summary>
     /// <returns>result.</returns>
     internal ParseResult Solve()
-        => _parser.Solve();
+    {
+        return _parser.Solve();
+    }
 }

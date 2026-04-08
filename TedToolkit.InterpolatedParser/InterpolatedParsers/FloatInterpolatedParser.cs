@@ -11,7 +11,7 @@ using System.Globalization;
 namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
-/// The string parser.
+/// The float interpolated parser.
 /// </summary>
 public sealed class FloatInterpolatedParser : IInterpolatedParser<float>
 {

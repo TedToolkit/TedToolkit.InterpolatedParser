@@ -19,7 +19,9 @@ public sealed class ListInterpolatedParserCreator : IInterpolatedParserCreator
     public bool CanCreate(Type type)
     {
         if (!type.IsGenericType)
+        {
             return false;
+        }
 
         return type.GetGenericTypeDefinition() == typeof(List<>);
     }

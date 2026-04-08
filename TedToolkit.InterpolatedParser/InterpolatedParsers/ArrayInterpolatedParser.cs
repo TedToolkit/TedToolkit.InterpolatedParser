@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
-/// The string parser.
+/// The array interpolated parser.
 /// </summary>
 /// <typeparam name="T">type.</typeparam>
 /// <param name="parser">the item parser.</param>
@@ -40,7 +40,9 @@ public sealed class ArrayInterpolatedParser<T>(IInterpolatedParser<T> parser) : 
         result = new T[items.Length];
         var parseResults = new ParseResult[items.Length];
         for (var i = 0; i < result.Length; i++)
+        {
             parseResults[i] = parser.Parse(items[i], itemFormat, ref result[i], noExceptions);
+        }
 
         return ParseResult.CreateFailedResults(parseResults);
 #else
@@ -48,7 +50,9 @@ public sealed class ArrayInterpolatedParser<T>(IInterpolatedParser<T> parser) : 
         result = new T[items.Length];
         var parseResults = new ParseResult[items.Length];
         for (var i = 0; i < result.Length; i++)
+        {
             parseResults[i] = parser.Parse(items[i], itemFormat, ref result[i], noExceptions);
+        }
 
         return ParseResult.CreateFailedResults(parseResults);
 #endif

@@ -12,7 +12,7 @@ using System.Numerics;
 namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
-/// The string parser.
+/// The number base interpolated parser for types implementing <see cref="INumberBase{TSelf}"/>.
 /// </summary>
 /// <typeparam name="T">the type.</typeparam>
 public sealed class NumberBaseInterpolatedParser<T> : IInterpolatedParser<T>

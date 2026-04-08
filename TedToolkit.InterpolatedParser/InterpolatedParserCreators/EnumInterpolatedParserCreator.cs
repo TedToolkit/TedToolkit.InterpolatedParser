@@ -17,7 +17,9 @@ public sealed class EnumInterpolatedParserCreator : IInterpolatedParserCreator
 {
     /// <inheritdoc/>
     public bool CanCreate(Type type)
-        => type.IsEnum;
+    {
+        return type.IsEnum;
+    }
 
     /// <inheritdoc/>
     public IInterpolatedParser Create(Type type)

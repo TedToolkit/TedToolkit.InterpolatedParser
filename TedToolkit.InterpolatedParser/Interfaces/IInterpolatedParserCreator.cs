@@ -13,7 +13,7 @@ namespace TedToolkit.InterpolatedParser;
 public interface IInterpolatedParserCreator
 {
     /// <summary>
-    /// Can create from the ype.
+    /// Can create a parser for the specified type.
     /// </summary>
     /// <param name="type">type.</param>
     /// <returns>result.</returns>
