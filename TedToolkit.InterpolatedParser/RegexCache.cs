@@ -25,5 +25,7 @@ internal static class RegexCache
     /// <returns>regex.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static Regex Get(string pattern)
-        => _regexes.GetOrAdd(pattern, static p => new Regex(p, RegexOptions.Compiled));
+    {
+        return _regexes.GetOrAdd(pattern, static p => new Regex(p, RegexOptions.Compiled));
+    }
 }

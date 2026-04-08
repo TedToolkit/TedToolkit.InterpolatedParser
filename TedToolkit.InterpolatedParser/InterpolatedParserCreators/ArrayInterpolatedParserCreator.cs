@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="ArrayInterpolatedParserCreator.cs" company="TedToolkit">
 // Copyright (c) TedToolkit. All rights reserved.
 // Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
@@ -11,13 +11,15 @@ namespace TedToolkit.InterpolatedParser.InterpolatedParserCreators;
 #pragma warning disable CA1062
 
 /// <summary>
-/// The list interpolated parser creator.
+/// The array interpolated parser creator.
 /// </summary>
 public sealed class ArrayInterpolatedParserCreator : IInterpolatedParserCreator
 {
     /// <inheritdoc />
     public bool CanCreate(Type type)
-        => type.IsArray;
+    {
+        return type.IsArray;
+    }
 
     /// <inheritdoc />
     public IInterpolatedParser Create(Type type)

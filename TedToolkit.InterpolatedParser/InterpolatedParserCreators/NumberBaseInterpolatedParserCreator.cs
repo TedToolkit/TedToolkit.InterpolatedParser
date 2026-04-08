@@ -20,7 +20,9 @@ public sealed class NumberBaseInterpolatedParserCreator : IInterpolatedParserCre
 {
     /// <inheritdoc />
     public bool CanCreate(Type type)
-        => typeof(INumberBase<>).MakeGenericType(type).IsAssignableFrom(type);
+    {
+        return typeof(INumberBase<>).MakeGenericType(type).IsAssignableFrom(type);
+    }
 
     /// <inheritdoc/>
     public IInterpolatedParser Create(Type type)

@@ -47,12 +47,14 @@ public readonly record struct ParseResult
     }
 
     /// <summary>
-    /// Create form the failed results.
+    /// Create from the failed results.
     /// </summary>
     /// <param name="results">results.</param>
     /// <returns>result.</returns>
     internal static ParseResult CreateFailedResults(IReadOnlyList<ParseResult> results)
-        => new(results.Min(i => i.Type), "", results);
+    {
+        return new(results.Min(i => i.Type), "", results);
+    }
 
     /// <summary>
     /// Gets succeed result.
@@ -65,7 +67,9 @@ public readonly record struct ParseResult
     /// <param name="message">message.</param>
     /// <returns>result.</returns>
     public static ParseResult Failed(string message)
-        => new(ParseResultType.FAILED_TO_PARSE, message, []);
+    {
+        return new(ParseResultType.FAILED_TO_PARSE, message, []);
+    }
 
     /// <summary>
     /// Failed to parse.
@@ -101,7 +105,9 @@ public readonly record struct ParseResult
         ArgumentNullException.ThrowIfNull(type);
 #else
         if (type is null)
+        {
             throw new ArgumentNullException(nameof(type));
+        }
 #endif
 
         return Failed(Localization.FailedToParse(

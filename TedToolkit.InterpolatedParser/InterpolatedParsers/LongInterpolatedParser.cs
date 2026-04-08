@@ -11,7 +11,7 @@ using System.Globalization;
 namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
-/// The string parser.
+/// The long interpolated parser.
 /// </summary>
 public sealed class LongInterpolatedParser : IInterpolatedParser<long>
 {

@@ -17,7 +17,7 @@ internal interface IInterpolatedParserHolder
     /// </summary>
     /// <param name="input">the input.</param>
     /// <param name="format">format.</param>
-    /// <param name="noExceptions">is trying.</param>
+    /// <param name="noExceptions">whether to suppress exceptions.</param>
     /// <returns>result.</returns>
     ParseResult Parse(StringPart input, string format, bool noExceptions);
 }

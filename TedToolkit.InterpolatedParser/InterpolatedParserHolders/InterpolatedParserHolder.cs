@@ -34,5 +34,7 @@ internal sealed unsafe class InterpolatedParserHolder<T>(IInterpolatedParser<T> 
 
     /// <inheritdoc/>
     public ParseResult Parse(StringPart input, string format, bool noExceptions)
-        => parser.Parse(input, format, ref Unsafe.AsRef<T>(_pointer), noExceptions);
+    {
+        return parser.Parse(input, format, ref Unsafe.AsRef<T>(_pointer), noExceptions);
+    }
 }

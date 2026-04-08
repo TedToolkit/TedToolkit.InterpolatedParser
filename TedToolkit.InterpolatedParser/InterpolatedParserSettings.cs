@@ -52,37 +52,47 @@ public static class InterpolatedParserSettings
     }
 
     /// <summary>
-    /// Add a parser for it.
+    /// Add a parser for the specified type.
     /// </summary>
     /// <param name="parser">parser.</param>
     /// <typeparam name="T">target type.</typeparam>
     public static void AddParser<T>(IInterpolatedParser<T> parser)
-        => _parsers[typeof(T)] = parser;
+    {
+        _parsers[typeof(T)] = parser;
+    }
 
     /// <summary>
     /// Clear all parsers.
     /// </summary>
     public static void ClearParsers()
-        => _parsers.Clear();
+    {
+        _parsers.Clear();
+    }
 
     /// <summary>
-    /// Add the predicate creator.
+    /// Add a parser creator.
     /// </summary>
     /// <param name="creator">creator.</param>
     public static void AddParserCreator(IInterpolatedParserCreator creator)
-        => _interpolatedParserCreators.Add(creator);
+    {
+        _interpolatedParserCreators.Add(creator);
+    }
 
     /// <summary>
     /// Clear all holders.
     /// </summary>
     public static void ClearHolders()
-        => _holders?.Clear();
+    {
+        _holders?.Clear();
+    }
 
     /// <summary>
     /// Clear all creators.
     /// </summary>
     public static void ClearCreators()
-        => _interpolatedParserCreators.Clear();
+    {
+        _interpolatedParserCreators.Clear();
+    }
 
     /// <summary>
     /// Get the parser from the type.
@@ -91,7 +101,9 @@ public static class InterpolatedParserSettings
     /// <returns>parser.</returns>
     /// <exception cref="KeyNotFoundException">can't find the parser.</exception>
     public static IInterpolatedParser<T> GetParser<T>()
-        => (IInterpolatedParser<T>)GetParser(typeof(T));
+    {
+        return (IInterpolatedParser<T>)GetParser(typeof(T));
+    }
 
     /// <summary>
     /// Get the parser from the type.
@@ -106,7 +118,9 @@ public static class InterpolatedParserSettings
         ArgumentNullException.ThrowIfNull(type);
 #else
         if (type is null)
+        {
             throw new ArgumentNullException(nameof(type));
+        }
 #endif
 #if NET6_0_OR_GREATER
         ref var parser = ref CollectionsMarshal.GetValueRefOrAddDefault(_parsers, type, out var exists);
@@ -114,12 +128,16 @@ public static class InterpolatedParserSettings
 #else
         if (_parsers.TryGetValue(type, out var parser))
 #endif
+        {
             return parser;
+        }
 
         foreach (var creator in _interpolatedParserCreators)
         {
             if (!creator.CanCreate(type))
+            {
                 continue;
+            }
 
             var addedParser = creator.Create(type);
 
@@ -135,7 +153,7 @@ public static class InterpolatedParserSettings
     }
 
     /// <summary>
-    /// Get the older.
+    /// Get the holder.
     /// </summary>
     /// <typeparam name="T">type.</typeparam>
     /// <returns>result.</returns>

@@ -38,9 +38,9 @@ internal ref struct MainInterpolatedParser
     /// Initializes a new instance of the <see cref="MainInterpolatedParser"/> struct.
     /// Create a handler.
     /// </summary>
-    /// <param name="formattedCount">the formated count.</param>
+    /// <param name="formattedCount">the formatted count.</param>
     /// <param name="input">the input string.</param>
-    /// <param name="noExceptions">is try.</param>
+    /// <param name="noExceptions">whether to suppress exceptions.</param>
 #pragma warning disable RCS1163
     internal MainInterpolatedParser(int formattedCount, string input, bool noExceptions)
 #pragma warning restore RCS1163
@@ -64,7 +64,9 @@ internal ref struct MainInterpolatedParser
             if (start < 0)
             {
                 if (_holder is not null)
+                {
                     _results[_index++] = ParseResult.CreateFailedIndexResult(key, Input.Substring(Start));
+                }
 
                 return;
             }
@@ -74,12 +76,16 @@ internal ref struct MainInterpolatedParser
             var text = Input.Substring(Start, start - Start);
 #endif
             if (_holder is not null)
+            {
                 _results[_index++] = _holder.Parse(text, _format, _noExceptions);
+            }
         }
         finally
         {
             if (start >= 0)
+            {
                 Start = start + length;
+            }
 
             _holder = null;
         }
@@ -111,7 +117,9 @@ internal ref struct MainInterpolatedParser
         var text = Input.Substring(Start);
 #endif
         if (_holder is not null)
+        {
             _results[_index++] = _holder.Parse(text, _format, _noExceptions);
+        }
 
         return ParseResult.CreateFailedResults(_results);
     }

@@ -11,7 +11,7 @@ namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 #pragma warning disable CA1062
 
 /// <summary>
-/// The helper for the holders.
+/// Helper utilities for interpolated parsers.
 /// </summary>
 public static class InterpolatedParserHelper
 {
@@ -21,7 +21,9 @@ public static class InterpolatedParserHelper
     /// <param name="format">format.</param>
     /// <returns>result.</returns>
     public static string[] GetFormatItems(string format)
-        => format.Split('|');
+    {
+        return format.Split('|');
+    }
 
     /// <summary>
     /// Get the string.
@@ -33,11 +35,15 @@ public static class InterpolatedParserHelper
     public static string GetString(string[] items, int index, string defaultValue)
     {
         if (items.Length <= index)
+        {
             return defaultValue;
+        }
 
         var text = items[index];
         if (string.IsNullOrEmpty(text))
+        {
             return defaultValue;
+        }
 
         return text;
     }
@@ -50,10 +56,14 @@ public static class InterpolatedParserHelper
     public static NumberStyles GetNumberStyle(string format)
     {
         if (string.IsNullOrEmpty(format))
+        {
             return NumberStyles.Any;
+        }
 
         if (Enum.TryParse<NumberStyles>(format, out var value))
+        {
             return value;
+        }
 
         return NumberStyles.Any;
     }

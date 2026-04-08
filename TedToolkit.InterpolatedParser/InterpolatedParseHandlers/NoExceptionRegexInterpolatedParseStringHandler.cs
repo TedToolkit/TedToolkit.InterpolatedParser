@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 namespace TedToolkit.InterpolatedParser;
 
 /// <summary>
-/// The default handler for the interpolated parser.
+/// The interpolated string handler for regex-matching parsing that suppresses exceptions.
 /// </summary>
 [InterpolatedStringHandler]
 public ref struct NoExceptionRegexInterpolatedParseStringHandler
@@ -23,7 +23,7 @@ public ref struct NoExceptionRegexInterpolatedParseStringHandler
     /// Create a handler.
     /// </summary>
     /// <param name="literalLength">the literal length.</param>
-    /// <param name="formattedCount">the formated count.</param>
+    /// <param name="formattedCount">the formatted count.</param>
     /// <param name="input">the input string.</param>
 #pragma warning disable RCS1163
     public NoExceptionRegexInterpolatedParseStringHandler(int literalLength, int formattedCount, string input)
@@ -45,7 +45,9 @@ public ref struct NoExceptionRegexInterpolatedParseStringHandler
         ArgumentNullException.ThrowIfNull(s);
 #else
         if (s is null)
+        {
             throw new ArgumentNullException(nameof(s));
+        }
 #endif
 
         var regexResult = RegexCache.Get(s).Match(_parser.Input, _parser.Start);
@@ -60,12 +62,16 @@ public ref struct NoExceptionRegexInterpolatedParseStringHandler
     /// <param name="format">format.</param>
     /// <typeparam name="T">type.</typeparam>
     public void AppendFormatted<T>(in T t, string format = "")
-        => _parser.AppendFormatted(in t, format);
+    {
+        _parser.AppendFormatted(in t, format);
+    }
 
     /// <summary>
     /// Solve.
     /// </summary>
     /// <returns>result.</returns>
     internal ParseResult Solve()
-        => _parser.Solve();
+    {
+        return _parser.Solve();
+    }
 }

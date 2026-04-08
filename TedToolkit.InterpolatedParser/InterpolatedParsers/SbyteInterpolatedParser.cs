@@ -11,7 +11,7 @@ using System.Globalization;
 namespace TedToolkit.InterpolatedParser.InterpolatedParsers;
 
 /// <summary>
-/// The string parser.
+/// The sbyte interpolated parser.
 /// </summary>
 public sealed class SbyteInterpolatedParser : IInterpolatedParser<sbyte>
 {
