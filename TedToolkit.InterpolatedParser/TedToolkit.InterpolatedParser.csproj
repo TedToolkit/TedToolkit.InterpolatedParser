@@ -24,4 +24,9 @@
     <PackageReference Include="TedToolkit.Localizations" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="../.agents/skills/parse-with-interpolated-patterns/**/*"
+          Pack="true" PackagePath="skills/parse-with-interpolated-patterns/" />
+  </ItemGroup>
 </Project>
