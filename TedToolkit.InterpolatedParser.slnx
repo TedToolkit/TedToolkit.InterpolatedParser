@@ -5,9 +5,6 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
-  <Project Path="Build/Build.csproj">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
   <Project Path="TedToolkit.InterpolatedParser.Benchmark/TedToolkit.InterpolatedParser.Benchmark.csproj" />
   <Project Path="TedToolkit.InterpolatedParser.Tests/TedToolkit.InterpolatedParser.Tests.csproj" />
   <Project Path="TedToolkit.InterpolatedParser/TedToolkit.InterpolatedParser.csproj" />
